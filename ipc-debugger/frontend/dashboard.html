@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - IPC Debugger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">🔍 IPC Debugger</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="visualization.html">Visualization</a></li>
+                <li><a href="logs.html">Logs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="container" style="padding-top: 2rem;">
+        <div class="flex-between mb-4">
+            <h1>Simulation Dashboard</h1>
+            <button class="btn btn-primary" id="createSimBtn">+ New Simulation</button>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-4 mb-4">
+            <div class="card">
+                <div class="card-header">Total Processes</div>
+                <div class="card-body">
+                    <h2 id="totalProcesses">0</h2>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Active Channels</div>
+                <div class="card-body">
+                    <h2 id="totalChannels">0</h2>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Messages Sent</div>
+                <div class="card-body">
+                    <h2 id="totalMessages">0</h2>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Avg Latency</div>
+                <div class="card-body">
+                    <h2 id="avgLatency">0ms</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Process Management Panel -->
+            <div class="card">
+                <div class="card-header flex-between">
+                    <span>Process Management</span>
+                    <button class="btn btn-sm btn-primary" id="addProcessBtn">+ Add Process</button>
+                </div>
+                <div class="card-body">
+                    <div id="processList" class="process-list">
+                        <p class="text-secondary">No processes created yet. Click "Add Process" to start.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IPC Configuration Panel -->
+            <div class="card">
+                <div class="card-header">IPC Configuration</div>
+                <div class="card-body">
+                    <form id="ipcConfigForm">
+                        <div class="form-group">
+                            <label class="form-label">IPC Type</label>
+                            <select class="form-select" id="ipcType">
+                                <option value="pipe">Pipe (Unidirectional)</option>
+                                <option value="queue">Message Queue (Priority-based)</option>
+                                <option value="shmem">Shared Memory (Fastest)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Sender Process</label>
+                            <select class="form-select" id="senderProcess">
+                                <option value="">Select sender...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Receiver Process</label>
+                            <select class="form-select" id="receiverProcess">
+                                <option value="">Select receiver...</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success" style="width: 100%;">Create Channel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Active Channels -->
+            <div class="card">
+                <div class="card-header">Active Channels</div>
+                <div class="card-body">
+                    <div id="channelsList" class="channels-list">
+                        <p class="text-secondary">No channels created yet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="card">
+                <div class="card-header">Simulation Control</div>
+                <div class="card-body">
+                    <div class="control-buttons">
+                        <button class="btn btn-success" id="startSimBtn" style="width: 100%;">▶ Start
+                            Simulation</button>
+                        <button class="btn btn-warning" id="pauseSimBtn" style="width: 100%;" disabled>⏸ Pause</button>
+                        <button class="btn btn-error" id="stopSimBtn" style="width: 100%;" disabled>⏹ Stop</button>
+                        <button class="btn btn-secondary" id="resetSimBtn" style="width: 100%;">🔄 Reset</button>
+                    </div>
+
+                    <div class="mt-3">
+                        <div class="flex-between mb-2">
+                            <span>Status:</span>
+                            <span class="badge badge-secondary" id="simStatus">Not Started</span>
+                        </div>
+                        <div class="flex-between">
+                            <span>Simulation ID:</span>
+                            <span id="simId">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Sending -->
+        <div class="card mt-4">
+            <div class="card-header">Send Message</div>
+            <div class="card-body">
+                <form id="sendMessageForm" class="flex gap-2">
+                    <select class="form-select" id="messageChannel" style="flex: 1;">
+                        <option value="">Select channel...</option>
+                    </select>
+                    <input type="text" class="form-input" id="messageContent" placeholder="Enter message content..."
+                        style="flex: 2;">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="createSimModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Create New Simulation</h3>
+            <form id="createSimForm">
+                <div class="form-group">
+                    <label class="form-label">Simulation Name</label>
+                    <input type="text" class="form-input" id="simName" placeholder="My IPC Simulation" required>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('createSimModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="addProcessModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Add Process</h3>
+            <form id="addProcessForm">
+                <div class="form-group">
+                    <label class="form-label">Process Name</label>
+                    <input type="text" class="form-input" id="processName" placeholder="Process_1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Priority (0-10)</label>
+                    <input type="number" class="form-input" id="processPriority" value="0" min="0" max="10">
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="closeModal('addProcessModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 IPC Debugger. Operating Systems Project.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
