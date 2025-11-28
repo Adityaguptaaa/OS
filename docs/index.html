@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPC Debugger - Inter-Process Communication Debugging Tool</title>
+    <meta name="description" content="A powerful web-based tool for debugging inter-process communication methods including pipes, message queues, and shared memory.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3), transparent);
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -200px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 var(--spacing-xl);
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-lg);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-dark-secondary);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: var(--spacing-2xl) 0;
+        }
+        
+        .feature-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: all var(--transition-normal);
+            border: 1px solid var(--bg-tertiary);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-md);
+            font-size: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .tech-badge {
+            background: var(--bg-secondary);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            border: 2px solid var(--bg-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">🔍 IPC Debugger</div>
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="visualization.html">Visualization</a></li>
+                <li><a href="logs.html">Logs</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1>Debug IPC Like Never Before</h1>
+            <p>
+                Visualize, analyze, and debug inter-process communication in real-time. 
+                Detect deadlocks, identify bottlenecks, and optimize your multi-process applications.
+            </p>
+            <div class="hero-buttons">
+                <a href="dashboard.html" class="btn btn-primary btn-lg">Start Debugging</a>
+                <a href="about.html" class="btn btn-secondary btn-lg">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="text-center mb-4">Powerful Features</h2>
+            <div class="grid grid-3">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔄</div>
+                    <h3>IPC Simulation</h3>
+                    <p>Simulate Pipes, Message Queues, and Shared Memory with realistic delays and behaviors.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-Time Visualization</h3>
+                    <p>Interactive canvas-based process graphs with live message flow animations.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔴</div>
+                    <h3>Deadlock Detection</h3>
+                    <p>Automatic detection of circular wait conditions with visual cycle highlighting.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Bottleneck Analysis</h3>
+                    <p>Identify slow processes and communication channels with performance metrics.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📝</div>
+                    <h3>Comprehensive Logging</h3>
+                    <p>Detailed event logs with filtering, search, and export capabilities.</p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📈</div>
+                    <h3>Statistics Dashboard</h3>
+                    <p>Real-time charts and graphs showing latency, throughput, and resource usage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="section">
+        <div class="container text-center">
+            <h2 class="mb-3">Built With Modern Technologies</h2>
+            <div class="tech-stack">
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">Python Flask</span>
+                <span class="tech-badge">WebSocket</span>
+                <span class="tech-badge">Chart.js</span>
+                <span class="tech-badge">SQLite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section" style="background: var(--bg-secondary);">
+        <div class="container text-center">
+            <h2 class="mb-3">Ready to Debug Your IPC?</h2>
+            <p class="mb-4">Start simulating and analyzing inter-process communication now.</p>
+            <a href="dashboard.html" class="btn btn-primary btn-lg">Get Started →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 IPC Debugger. Operating Systems Project.</p>
+        <ul class="footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="https://github.com" target="_blank">GitHub</a></li>
+        </ul>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
