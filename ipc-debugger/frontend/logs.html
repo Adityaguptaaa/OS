@@ -110,7 +110,7 @@
 
     <script src="js/main.js"></script>
     <script>
-        let currentPage = 1;
+        let currentLogPage = 1;
         let logs = [];
         let filteredLogs = [];
 
@@ -158,7 +158,7 @@
                 return true;
             });
 
-            currentPage = 1;
+            currentLogPage = 1;
             renderLogs();
         }
 
@@ -171,7 +171,7 @@
             }
 
             const perPage = 50;
-            const start = (currentPage - 1) * perPage;
+            const start = (currentLogPage - 1) * perPage;
             const end = start + perPage;
             const pageLogs = filteredLogs.slice(start, end);
 
@@ -187,7 +187,7 @@
             `).join('');
 
             document.getElementById('pageInfo').textContent =
-                `Page ${currentPage} of ${Math.ceil(filteredLogs.length / perPage)}`;
+                `Page ${currentLogPage} of ${Math.ceil(filteredLogs.length / perPage)}`;
         }
 
         async function exportJson() {
