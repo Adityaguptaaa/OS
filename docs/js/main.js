@@ -48,7 +48,7 @@ document.querySelectorAll('.feature-card, .card').forEach(el => {
 // Auto-detect environment: use localhost for local dev, deployed backend for production
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5000/api'
-    : 'https://YOUR_RENDER_APP_NAME.onrender.com/api'; // Replace with your Render URL after deployment
+    : 'https://os-1-8byi.onrender.com/api';
 
 async function apiRequest(endpoint, options = {}) {
     try {
