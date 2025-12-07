@@ -20,10 +20,10 @@ if __name__ == '__main__':
     is_production = os.environ.get('RENDER') or os.environ.get('RAILWAY_ENVIRONMENT')
     
     if is_production:
-        # Production settings - use eventlet for production
-        print(f"Starting in PRODUCTION mode on port {port} with eventlet")
-        import eventlet
-        eventlet.monkey_patch()
+        # Production settings - use gevent for production (Python 3.13 compatible)
+        print(f"Starting in PRODUCTION mode on port {port} with gevent")
+        from gevent import monkey
+        monkey.patch_all()
         socketio.run(app, host='0.0.0.0', port=port, debug=False, log_output=True)
     else:
         # Development settings
