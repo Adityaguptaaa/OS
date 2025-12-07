@@ -103,7 +103,7 @@ function initWebSocket() {
     // Auto-detect environment for WebSocket connection
     const wsUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:5000'
-        : 'https://YOUR_RENDER_APP_NAME.onrender.com'; // Replace with your Render URL after deployment
+        : 'https://os-1-8byi.onrender.com';
 
     socket = io(wsUrl);
 

@@ -218,24 +218,24 @@
             const simId = localStorage.getItem('currentSimulationId');
             if (!simId) return;
 
-            try:
-            const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000'
-                : 'https://os-1-8byi.onrender.com';
-            const response = await fetch(`${apiBase}/api/export/logs/${simId}?format=csv`);
-            const data = await response.text();
+            try {
+                const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:5000'
+                    : 'https://os-1-8byi.onrender.com';
+                const response = await fetch(`${apiBase}/api/export/logs/${simId}?format=csv`);
+                const data = await response.text();
 
-            const blob = new Blob([data], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `simulation_${simId}_logs.csv`;
-            a.click();
+                const blob = new Blob([data], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `simulation_${simId}_logs.csv`;
+                a.click();
 
-            showToast('Logs exported as CSV', 'success');
-        } catch (error) {
-            showToast('Failed to export logs', 'error');
-        }
+                showToast('Logs exported as CSV', 'success');
+            } catch (error) {
+                showToast('Failed to export logs', 'error');
+            }
         }
 
         // Auto-refresh
