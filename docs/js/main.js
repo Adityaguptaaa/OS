@@ -9,7 +9,7 @@ if (themeToggle) {
         document.body.classList.add('light-theme');
         themeToggle.textContent = '☀️';
     }
-    
+
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-theme');
         const isLight = document.body.classList.contains('light-theme');
@@ -45,7 +45,10 @@ document.querySelectorAll('.feature-card, .card').forEach(el => {
 });
 
 // Utility functions
-const API_BASE = 'http://localhost:5000/api';
+// Auto-detect environment: use localhost for local dev, deployed backend for production
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000/api'
+    : 'https://YOUR_RENDER_APP_NAME.onrender.com/api'; // Replace with your Render URL after deployment
 
 async function apiRequest(endpoint, options = {}) {
     try {
@@ -56,11 +59,11 @@ async function apiRequest(endpoint, options = {}) {
             },
             ...options
         });
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         return await response.json();
     } catch (error) {
         console.error('API Request failed:', error);
@@ -77,9 +80,9 @@ function showToast(message, type = 'info') {
     toast.style.right = '20px';
     toast.style.zIndex = '10000';
     toast.style.minWidth = '300px';
-    
+
     document.body.appendChild(toast);
-    
+
     setTimeout(() => {
         toast.style.opacity = '0';
         toast.style.transition = 'opacity 0.3s';

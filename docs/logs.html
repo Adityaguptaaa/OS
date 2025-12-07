@@ -195,7 +195,10 @@
             if (!simId) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/export/logs/${simId}?format=json`);
+                const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:5000'
+                    : 'https://YOUR_RENDER_APP_NAME.onrender.com'; // Replace with your Render URL
+                const response = await fetch(`${apiBase}/api/export/logs/${simId}?format=json`);
                 const data = await response.json();
 
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -216,7 +219,10 @@
             if (!simId) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/export/logs/${simId}?format=csv`);
+                const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:5000'
+                    : 'https://YOUR_RENDER_APP_NAME.onrender.com'; // Replace with your Render URL
+                const response = await fetch(`${apiBase}/api/export/logs/${simId}?format=csv`);
                 const data = await response.text();
 
                 const blob = new Blob([data], { type: 'text/csv' });

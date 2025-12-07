@@ -25,10 +25,11 @@ venv/
 ENV/
 env/
 
-# Database
+# Database files (but keep directory structure)
 *.db
 *.sqlite
 *.sqlite3
+!.gitkeep
 
 # IDE
 .vscode/
