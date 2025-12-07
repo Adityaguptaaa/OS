@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-IPC Debugger - Development Server Launcher
+IPC Debugger - Production Server Launcher
 Run this file to start the application
 """
 
@@ -20,9 +20,11 @@ if __name__ == '__main__':
     is_production = os.environ.get('RENDER') or os.environ.get('RAILWAY_ENVIRONMENT')
     
     if is_production:
-        # Production settings
-        print(f"Starting in PRODUCTION mode on port {port}")
-        socketio.run(app, host='0.0.0.0', port=port, debug=False)
+        # Production settings - use eventlet for production
+        print(f"Starting in PRODUCTION mode on port {port} with eventlet")
+        import eventlet
+        eventlet.monkey_patch()
+        socketio.run(app, host='0.0.0.0', port=port, debug=False, log_output=True)
     else:
         # Development settings
         print(f"Starting in DEVELOPMENT mode on port {port}")
