@@ -128,21 +128,35 @@
 
         async function loadLogs() {
             const simId = localStorage.getItem('currentSimulationId');
+            console.log('Loading logs for simulation ID:', simId);
+
             if (!simId) {
+                console.warn('No simulation ID found in localStorage');
                 document.getElementById('logsTableBody').innerHTML =
-                    '<tr><td colspan="6" class="text-center text-secondary">No active simulation</td></tr>';
+                    '<tr><td colspan="6" class="text-center text-secondary">No active simulation. Please create a simulation first.</td></tr>';
                 return;
             }
 
             try {
+                console.log('Fetching logs from API:', `/events/${simId}?limit=1000`);
                 const response = await apiRequest(`/events/${simId}?limit=1000`);
+                console.log('API Response:', response);
+
                 if (response.success) {
-                    logs = response.events;
+                    logs = response.events || [];
                     filteredLogs = logs;
+                    console.log(`Loaded ${logs.length} logs`);
                     renderLogs();
+                } else {
+                    console.error('API returned success=false:', response);
+                    document.getElementById('logsTableBody').innerHTML =
+                        '<tr><td colspan="6" class="text-center text-secondary">Failed to load logs</td></tr>';
                 }
             } catch (error) {
-                showToast('Failed to load logs', 'error');
+                console.error('Error loading logs:', error);
+                showToast('Failed to load logs: ' + error.message, 'error');
+                document.getElementById('logsTableBody').innerHTML =
+                    '<tr><td colspan="6" class="text-center text-secondary">Error loading logs. Check console for details.</td></tr>';
             }
         }
 
@@ -163,9 +177,11 @@
         }
 
         function renderLogs() {
+            console.log('renderLogs called with', filteredLogs.length, 'logs');
             const tbody = document.getElementById('logsTableBody');
 
             if (filteredLogs.length === 0) {
+                console.log('No logs to display');
                 tbody.innerHTML = '<tr><td colspan="6" class="text-center text-secondary">No logs found</td></tr>';
                 return;
             }
@@ -174,6 +190,8 @@
             const start = (currentPage - 1) * perPage;
             const end = start + perPage;
             const pageLogs = filteredLogs.slice(start, end);
+
+            console.log(`Rendering ${pageLogs.length} logs (page ${currentPage})`);
 
             tbody.innerHTML = pageLogs.map(log => `
                 <tr>
